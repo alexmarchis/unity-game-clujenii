@@ -33,11 +33,16 @@ public class Player : MonoBehaviour
         feetPosition.z = transform.position.z;
         feetPosition.y = transform.position.y - (transform.localScale.y * 1.1f);
 		// The player is grounded if a linecast to the groundcheck position hits anything on the ground layer.
-		grounded = Physics2D.Linecast(transform.position, feetPosition, groundLayer);  
+		grounded = Physics2D.Linecast(transform.position, feetPosition, groundLayer);
 
-		// If the jump button is pressed and the player is grounded then the player should jump.
-		if(Input.GetButtonDown("Jump") && grounded)
-			jump = true;
+        // If the jump button is pressed and the player is grounded then the player should jump.
+        if (grounded)
+        {
+            anim.SetBool("Jump", false);
+            if (Input.GetButtonDown("Jump"))
+                jump = true;
+        }
+		
 	}
 
 
@@ -71,7 +76,7 @@ public class Player : MonoBehaviour
 
 		if(jump)
 		{
-			anim.SetTrigger("Jump");
+			anim.SetBool("Jump", true);
 
             rb2D.AddForce(new Vector2(0f, jumpForce));
 
