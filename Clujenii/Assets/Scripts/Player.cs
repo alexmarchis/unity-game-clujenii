@@ -42,7 +42,11 @@ public class Player : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
                 jump = true;
         }
-		
+
+        if (Input.GetButtonDown("Skill-1"))
+        {
+            Punch();
+        }
 	}
 
 
@@ -54,7 +58,7 @@ public class Player : MonoBehaviour
         //sudden stop
         if(h == 0)
         {
-            rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+            StopRunning();
         }
 
 		// The Speed animator parameter is set to the absolute value of the horizontal input.
@@ -95,4 +99,19 @@ public class Player : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+
+    private void Punch()
+    {
+        if (grounded)
+        {
+            StopRunning();
+            anim.SetTrigger("Punch");
+            //actually handle the punch
+        }
+    }
+
+    private void StopRunning()
+    {
+        rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+    }
 }
