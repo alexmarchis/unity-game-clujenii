@@ -7,16 +7,21 @@ public class Player : MonoBehaviour
 	public bool facingRight = true;			// For determining which way the player is currently facing.
 	[HideInInspector]
 	public bool jump = false;				// Condition for whether the player should jump.
+	public bool punch = false;               // Condition for whether the player should jump.
 
-	public float moveForce = 365f;			// Amount of force added to move the player left and right.
+    public float moveForce = 365f;			// Amount of force added to move the player left and right.
 	public float maxSpeed = 5f;				// The fastest the player can travel in the x axis.
 	public float jumpForce = 1000f;			// Amount of force added when the player jumps.
     public LayerMask groundLayer;
+    public LayerMask enemy;
 
-	private bool grounded = false;			// Whether or not the player is grounded.
+    private bool grounded = false;			// Whether or not the player is grounded.
 	private Animator anim;					// Reference to the player's animator component.
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
+
+    //states
+    private string punching = "TudorPunch";
 
     void Awake()
 	{
@@ -41,31 +46,56 @@ public class Player : MonoBehaviour
             anim.SetBool("Jump", false);
             if (Input.GetButtonDown("Jump"))
                 jump = true;
-        }
 
-        if (Input.GetButtonDown("Skill-1"))
-        {
-            Punch();
+            if (Input.GetButtonDown("Skill-1"))
+            {
+                if (!IsPunching())
+                {
+                    anim.SetTrigger("Punch");
+                }
+            }
         }
-	}
+    }
 
 
 	void FixedUpdate ()
 	{
-		// Cache the horizontal input.
-		float h = Input.GetAxis("Horizontal");
+        if (IsPunching())
+        {
+            StopRunning();
+            
+        }
+        else
+        {
+            HandleHorizontalMovement();
+
+            if (jump)
+            {
+                anim.SetBool("Jump", true);
+
+                rb2D.AddForce(new Vector2(0f, jumpForce));
+
+                // Make sure the player can't jump again until the jump conditions from Update are satisfied.
+                jump = false;
+            }
+        }
+    }
+
+    private void HandleHorizontalMovement()
+    {
+        float h = Input.GetAxis("Horizontal");
 
         //sudden stop
-        if(h == 0)
+        if (h == 0)
         {
             StopRunning();
         }
 
-		// The Speed animator parameter is set to the absolute value of the horizontal input.
-		anim.SetFloat("Speed", Mathf.Abs(rb2D.velocity.x));
+        // The Speed animator parameter is set to the absolute value of the horizontal input.
+        anim.SetFloat("Speed", Mathf.Abs(rb2D.velocity.x));
 
-		// If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeed yet...
-		if(h * rb2D.velocity.x < maxSpeed)
+        // If the player is changing direction (h has a different sign to velocity.x) or hasn't reached maxSpeed yet...
+        if (h * rb2D.velocity.x < maxSpeed)
         {
             rb2D.AddForce(Vector2.right * h * moveForce);
         }
@@ -73,21 +103,11 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(rb2D.velocity.x) > maxSpeed)
             rb2D.velocity = new Vector2(Mathf.Sign(rb2D.velocity.x) * maxSpeed, rb2D.velocity.y);
 
-		if(h > 0 && !facingRight)
-			Flip();
-		else if(h < 0 && facingRight)
-			Flip();
-
-		if(jump)
-		{
-			anim.SetBool("Jump", true);
-
-            rb2D.AddForce(new Vector2(0f, jumpForce));
-
-			// Make sure the player can't jump again until the jump conditions from Update are satisfied.
-			jump = false;
-		}
-	}
+        if (h > 0 && !facingRight)
+            Flip();
+        else if (h < 0 && facingRight)
+            Flip();
+    }
 	
 	void Flip ()
 	{
@@ -102,16 +122,26 @@ public class Player : MonoBehaviour
 
     private void Punch()
     {
-        if (grounded)
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(enemy);
+        Collider2D[] results = new Collider2D[2];
+        Physics2D.OverlapCollider(boxCollider, filter, results);
+        foreach(Collider2D collider in results)
         {
-            StopRunning();
-            anim.SetTrigger("Punch");
-            //actually handle the punch
+            if(collider.tag == "Enemy")
+            {
+                collider.gameObject.GetComponent<Dummy>().Hit();
+            }
         }
     }
 
     private void StopRunning()
     {
         rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+    }
+
+    private bool IsPunching()
+    {
+        return anim.GetCurrentAnimatorStateInfo(0).IsName(punching);
     }
 }
