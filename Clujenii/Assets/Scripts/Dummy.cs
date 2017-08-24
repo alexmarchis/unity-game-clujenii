@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Dummy : MonoBehaviour
 {
@@ -17,8 +16,17 @@ public class Dummy : MonoBehaviour
 
     }
 
-    public void Hit()
+    public void Hit(int direction)
     {
         anim.SetTrigger("Hit");
+        Flip(direction);
+    }
+
+    void Flip(int direction)
+    {
+        // Multiply the player's x local scale by -1.
+        Vector3 theScale = transform.localScale;
+        theScale.x = Mathf.Abs(theScale.x) * direction;
+        transform.localScale = theScale;
     }
 }

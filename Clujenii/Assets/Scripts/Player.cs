@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public LayerMask enemy;
 
     private bool grounded = false;			// Whether or not the player is grounded.
+    private int doublePunchCounter = 0;
 	private Animator anim;					// Reference to the player's animator component.
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
@@ -29,7 +30,6 @@ public class Player : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
     }
-
 
 	void Update()
 	{
@@ -52,18 +52,18 @@ public class Player : MonoBehaviour
                 if (!IsPunching())
                 {
                     anim.SetTrigger("Punch");
+                    StartDoublePunch();
                 }
             }
         }
     }
-
 
 	void FixedUpdate ()
 	{
         if (IsPunching())
         {
             StopRunning();
-            
+            HandleDoublePunch();
         }
         else
         {
@@ -120,17 +120,35 @@ public class Player : MonoBehaviour
 		transform.localScale = theScale;
 	}
 
+    private void StartDoublePunch()
+    {
+        doublePunchCounter = 0;
+    }
+
+    private void HandleDoublePunch()
+    {
+        if(doublePunchCounter == 0
+          || doublePunchCounter == 3)
+        {
+            Punch();
+        }
+
+        doublePunchCounter++;
+    }
+
     private void Punch()
     {
         ContactFilter2D filter = new ContactFilter2D();
-        filter.SetLayerMask(enemy);
         Collider2D[] results = new Collider2D[2];
         Physics2D.OverlapCollider(boxCollider, filter, results);
         foreach(Collider2D collider in results)
         {
-            if(collider.tag == "Enemy")
+            if(collider != null)
             {
-                collider.gameObject.GetComponent<Dummy>().Hit();
+                if (collider.tag == "Enemy")
+                {
+                    collider.gameObject.GetComponent<Dummy>().Hit(-Math.Sign(transform.localScale.x));
+                }
             }
         }
     }
