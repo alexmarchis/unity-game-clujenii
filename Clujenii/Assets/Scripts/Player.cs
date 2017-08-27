@@ -7,13 +7,13 @@ public class Player : MonoBehaviour
 	public bool facingRight = true;			// For determining which way the player is currently facing.
 	[HideInInspector]
 	public bool jump = false;				// Condition for whether the player should jump.
-	public bool punch = false;               // Condition for whether the player should jump.
 
     public float moveForce = 365f;			// Amount of force added to move the player left and right.
 	public float maxSpeed = 5f;				// The fastest the player can travel in the x axis.
 	public float jumpForce = 1000f;			// Amount of force added when the player jumps.
     public LayerMask groundLayer;
     public LayerMask enemy;
+    public GameObject divineRay;
 
     private bool grounded = false;			// Whether or not the player is grounded.
     private int doublePunchCounter = 0;
@@ -23,6 +23,10 @@ public class Player : MonoBehaviour
 
     //states
     private string punching = "TudorPunch";
+    private bool preaching = false;
+    private string preachingWithRay = "TudorDivinePreach";
+    private string idle = "TudorIdle";
+    private string running = "TudorRun";
 
     void Awake()
 	{
@@ -49,21 +53,36 @@ public class Player : MonoBehaviour
 
             if (Input.GetButtonDown("Skill-1"))
             {
-                if (!IsPunching())
+                if (CanPerformSkill())
                 {
                     anim.SetTrigger("Punch");
                     StartDoublePunch();
                 }
+            }
+
+            if(Input.GetButton("Skill-2"))
+            {
+                if (CanPerformSkill())
+                {
+                    preaching = true;
+                    anim.SetBool("Preaching", true);
+                }
+            }
+            else
+            {
+                preaching = false;
+                StopPreach();
+                anim.SetBool("Preaching", false);
             }
         }
     }
 
 	void FixedUpdate ()
 	{
-        if (IsPunching())
+        if (IsPerformingSkill())
         {
             StopRunning();
-            HandleDoublePunch();
+            HandleSkill();
         }
         else
         {
@@ -78,6 +97,19 @@ public class Player : MonoBehaviour
                 // Make sure the player can't jump again until the jump conditions from Update are satisfied.
                 jump = false;
             }
+        }
+    }
+
+    private void HandleSkill()
+    {
+        if(IsPunching())
+        {
+            HandleDoublePunch();
+        }
+
+        if (IsPreachingWithRay())
+        {
+            HandlePreach();
         }
     }
 
@@ -153,6 +185,29 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void HandlePreach()
+    {
+        if (!divineRay.activeSelf)
+        {
+            Vector3 rayPosition;
+            if (facingRight)
+            {
+                rayPosition = transform.position + new Vector3(5, 0, 0);
+            }
+            else
+            {
+                rayPosition = transform.position + new Vector3(-5, 0, 0);
+            }
+            divineRay = Instantiate(divineRay, rayPosition, Quaternion.identity);
+            divineRay.SetActive(true);
+        }
+    }
+
+    private void StopPreach()
+    {
+        divineRay.SetActive(false);
+    }
+
     private void StopRunning()
     {
         rb2D.velocity = new Vector2(0, rb2D.velocity.y);
@@ -161,5 +216,26 @@ public class Player : MonoBehaviour
     private bool IsPunching()
     {
         return anim.GetCurrentAnimatorStateInfo(0).IsName(punching);
+    }
+
+    private bool IsPreaching()
+    {
+        return preaching;
+    }
+
+    private bool IsPreachingWithRay()
+    {
+        return anim.GetCurrentAnimatorStateInfo(0).IsName(preachingWithRay);
+    }
+
+    private bool CanPerformSkill()
+    {
+        return anim.GetCurrentAnimatorStateInfo(0).IsName(idle)
+            || anim.GetCurrentAnimatorStateInfo(0).IsName(running);
+    }
+
+    private bool IsPerformingSkill()
+    {
+        return IsPreaching() || IsPunching();
     }
 }

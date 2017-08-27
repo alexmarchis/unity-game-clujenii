@@ -600,7 +600,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   facingRight: 1
   jump: 0
-  punch: 0
   moveForce: 300
   maxSpeed: 5
   jumpForce: 400
@@ -610,6 +609,7 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 0
+  divineRay: {fileID: 1863098463146224, guid: a9e5af188e7a3e54a830d32cdb0fa9cc, type: 2}
 --- !u!212 &1754932412
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Enemy
+  - DivineRay
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - Ground
   - BlockingLayer
   - Enemy
-  - 
+  - Ray
   - 
   - 
   - 
@@ -51,4 +52,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1598659489
+    locked: 0
+  - name: Projectiles
+    uniqueID: 2678758223
     locked: 0
