@@ -15,11 +15,13 @@ public class Player : MonoBehaviour
     public LayerMask enemy;
     public GameObject divineRay;
 
+
     private bool grounded = false;			// Whether or not the player is grounded.
     private int doublePunchCounter = 0;
 	private Animator anim;					// Reference to the player's animator component.
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
+    private Level level;
 
     //states
     private string punching = "TudorPunch";
@@ -33,6 +35,8 @@ public class Player : MonoBehaviour
 		anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
+        var mainCamera = GameObject.Find("Main Camera");
+        level = mainCamera.GetComponent<Level>();
     }
 
 	void Update()
@@ -171,7 +175,7 @@ public class Player : MonoBehaviour
     private void Punch()
     {
         ContactFilter2D filter = new ContactFilter2D();
-        Collider2D[] results = new Collider2D[2];
+        Collider2D[] results = new Collider2D[4];
         Physics2D.OverlapCollider(boxCollider, filter, results);
         foreach(Collider2D collider in results)
         {
@@ -200,6 +204,21 @@ public class Player : MonoBehaviour
             }
             divineRay = Instantiate(divineRay, rayPosition, Quaternion.identity);
             divineRay.SetActive(true);
+        }
+
+        ContactFilter2D filter = new ContactFilter2D();
+        Collider2D[] results = new Collider2D[10];
+        Collider2D divineRayCollider = divineRay.GetComponent<BoxCollider2D>();
+        Physics2D.OverlapCollider(divineRayCollider, filter, results);
+        foreach (Collider2D collider in results)
+        {
+            if (collider != null)
+            {
+                if (collider.tag == "Enemy")
+                {
+                    collider.gameObject.GetComponent<Dummy>().Cure();
+                }
+            }
         }
     }
 

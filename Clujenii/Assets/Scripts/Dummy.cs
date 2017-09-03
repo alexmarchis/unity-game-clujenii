@@ -2,6 +2,11 @@
 
 public class Dummy : MonoBehaviour
 {
+    public int InitalEvilness = 100;
+
+    private int evilness;
+    private bool isCured = false;
+
     private Animator anim;					// Reference to the player's animator component.
     private BoxCollider2D boxCollider;
 
@@ -9,6 +14,7 @@ public class Dummy : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
+        evilness = InitalEvilness;
     }
 
     void Update()
@@ -19,7 +25,23 @@ public class Dummy : MonoBehaviour
     public void Hit(int direction)
     {
         anim.SetTrigger("Hit");
+        anim.SetBool("Cured", false);
+        evilness = InitalEvilness;
+        isCured = false;
         Flip(direction);
+    }
+
+    public void Cure()
+    {
+        if (evilness > 0)
+        { 
+            evilness--;
+        }
+        if(evilness == 0)
+        {
+            isCured = true;
+            anim.SetBool("Cured", true);
+        }
     }
 
     void Flip(int direction)
@@ -28,5 +50,10 @@ public class Dummy : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x = Mathf.Abs(theScale.x) * direction;
         transform.localScale = theScale;
+    }
+
+    public bool IsCured()
+    {
+        return isCured;
     }
 }

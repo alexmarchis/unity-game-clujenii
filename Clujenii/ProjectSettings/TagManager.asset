@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Enemy
   - DivineRay
+  - ExitWall
   layers:
   - Default
   - TransparentFX
@@ -55,4 +56,7 @@ TagManager:
     locked: 0
   - name: Projectiles
     uniqueID: 2678758223
+    locked: 0
+  - name: UI
+    uniqueID: 3985913947
     locked: 0
