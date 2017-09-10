@@ -21,7 +21,7 @@ TagManager:
   - BlockingLayer
   - Enemy
   - Ray
-  - 
+  - Friend
   - 
   - 
   - 
@@ -50,6 +50,9 @@ TagManager:
     locked: 0
   - name: Enemy
     uniqueID: 3412050165
+    locked: 0
+  - name: Friend
+    uniqueID: 4210307265
     locked: 0
   - name: Player
     uniqueID: 1598659489
