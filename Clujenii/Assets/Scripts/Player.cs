@@ -21,8 +21,7 @@ public class Player : MonoBehaviour
 	private Animator anim;					// Reference to the player's animator component.
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
-    private Level level;
-
+    
     //states
     private string punching = "TudorPunch";
     private bool preaching = false;
@@ -36,7 +35,6 @@ public class Player : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         var mainCamera = GameObject.Find("Main Camera");
-        level = mainCamera.GetComponent<Level>();
     }
 
 	void Update()
