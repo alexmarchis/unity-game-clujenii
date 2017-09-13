@@ -4,17 +4,15 @@ using System.Collections;
 public class TudorLevel1 : Level
 {
     private Dummy dummy;
-    void Awake()
+    new void Awake()
     {
         var dummyObject = GameObject.Find("Dummy");
         dummy = dummyObject.GetComponent<Dummy>();
         base.Awake();
     }
-    public override void EndGame()
+
+    protected override bool LevelConditionsMet()
     {
-        if (dummy.IsCured())
-        {
-            base.EndGame();
-        }
+        return dummy.IsCured();
     }
 }

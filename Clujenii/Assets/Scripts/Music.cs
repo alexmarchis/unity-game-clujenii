@@ -12,6 +12,7 @@ public class Music : MonoBehaviour
     void Awake()
     {
         musicSource = GetComponent<AudioSource>();
+        PlayLevelMusic();
     }
 
     public void PlayLevelMusic()
