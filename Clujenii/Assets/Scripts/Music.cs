@@ -12,13 +12,23 @@ public class Music : MonoBehaviour
     void Awake()
     {
         musicSource = GetComponent<AudioSource>();
-        PlayLevelMusic();
     }
 
     public void PlayLevelMusic()
     {
         FadeUp(resetTime);
         musicSource.Play();
+    }
+
+    public void StopLevelMusic(float fadeTime)
+    {
+        FadeDown(fadeTime);
+        Invoke("StopLevelMusic", fadeTime * .5f);
+    }
+
+    public void StopLevelMusic()
+    {
+        musicSource.Stop();
     }
 
     public void FadeUp(float fadeTime)

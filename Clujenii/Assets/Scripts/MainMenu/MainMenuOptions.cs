@@ -24,12 +24,13 @@ public class MainMenuOptions : MonoBehaviour
 
         //Get a reference to PlayMusic attached to UI object
         playMusic = GetComponent<Music>();
+        playMusic.PlayLevelMusic();
     }
 
 
     public void StartButtonClicked()
     {
-        playMusic.FadeDown(fadeColorAnimationClip.length);
+        playMusic.StopLevelMusic(fadeColorAnimationClip.length);
 
         //If changeScenes is true, start fading and change scenes halfway through animation when screen is blocked by FadeImage
         if (changeScenes)
