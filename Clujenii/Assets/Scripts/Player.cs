@@ -21,20 +21,22 @@ public class Player : MonoBehaviour
 	private Animator anim;					// Reference to the player's animator component.
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
-    
+    private PlayerSoundEffects soundFx;
+
     //states
     private string punching = "TudorPunch";
     private bool preaching = false;
     private string preachingWithRay = "TudorDivinePreach";
     private string idle = "TudorIdle";
     private string running = "TudorRun";
+    private bool isInAir = false;
 
     void Awake()
 	{
 		anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
-        var mainCamera = GameObject.Find("Main Camera");
+        soundFx = GetComponent<PlayerSoundEffects>();
     }
 
 	void Update()
@@ -49,7 +51,7 @@ public class Player : MonoBehaviour
         // If the jump button is pressed and the player is grounded then the player should jump.
         if (grounded)
         {
-            anim.SetBool("Jump", false);
+            HandleJumpLanding();
             if (Input.GetButtonDown("Jump"))
                 jump = true;
 
@@ -77,6 +79,10 @@ public class Player : MonoBehaviour
                 anim.SetBool("Preaching", false);
             }
         }
+        else
+        {
+            isInAir = true;
+        }
     }
 
 	void FixedUpdate ()
@@ -95,10 +101,16 @@ public class Player : MonoBehaviour
                 anim.SetBool("Jump", true);
 
                 rb2D.AddForce(new Vector2(0f, jumpForce));
+                soundFx.JumpSound();
 
                 // Make sure the player can't jump again until the jump conditions from Update are satisfied.
                 jump = false;
             }
+        }
+
+        if (!IsRunning())
+        {
+            soundFx.StopRunSound();
         }
     }
 
@@ -122,7 +134,12 @@ public class Player : MonoBehaviour
         //sudden stop
         if (h == 0)
         {
-            StopRunning();
+            if(IsRunning())
+                StopRunning();
+        }
+        else
+        {
+            soundFx.StartRunSound();
         }
 
         // The Speed animator parameter is set to the absolute value of the horizontal input.
@@ -226,8 +243,18 @@ public class Player : MonoBehaviour
     }
 
     private void StopRunning()
-    {
+    {   
         rb2D.velocity = new Vector2(0, rb2D.velocity.y);
+    }
+
+    private void HandleJumpLanding()
+    {
+        if (isInAir == true)
+        {
+            soundFx.LandJumpSound();
+            anim.SetBool("Jump", false);
+            isInAir = false;
+        }
     }
 
     private bool IsPunching()
@@ -249,6 +276,12 @@ public class Player : MonoBehaviour
     {
         return anim.GetCurrentAnimatorStateInfo(0).IsName(idle)
             || anim.GetCurrentAnimatorStateInfo(0).IsName(running);
+    }
+
+    private bool IsRunning()
+    {
+        return rb2D.velocity.x != 0
+            && rb2D.velocity.y == 0;
     }
 
     private bool IsPerformingSkill()

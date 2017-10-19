@@ -13,6 +13,8 @@ public abstract class Level : MonoBehaviour
     private GameObject textImage;
     private GameObject exitSign;
 
+    private Music playMusic;
+
     private bool levelComplete = false;
 
     protected void Awake()
@@ -26,7 +28,9 @@ public abstract class Level : MonoBehaviour
 
         exitSign.SetActive(false);
 
-        Invoke("HideLevelImage", levelStartDelay);
+        Invoke("StartLevel", levelStartDelay);
+
+        playMusic = GetComponent<Music>();
     }
 
     private void Update()
@@ -46,9 +50,10 @@ public abstract class Level : MonoBehaviour
         }
     }
 
-    void HideLevelImage()
+    void StartLevel()
     { 
         textImage.SetActive(false);
+        playMusic.PlayLevelMusic();
     }
 
     public virtual void EndGame()
@@ -60,6 +65,7 @@ public abstract class Level : MonoBehaviour
 
     private void BackToMainMenu()
     {
+        playMusic.StopLevelMusic();
         SceneManager.LoadScene(0);
     }
 
