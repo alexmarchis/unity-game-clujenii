@@ -23,7 +23,7 @@ MonoBehaviour:
   m_MinSize: {x: 681, y: 492}
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 0
-  controlID: 15306
+  controlID: 10622
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 15307
+  controlID: 10623
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_MinSize: {x: 404, y: 221}
   m_MaxSize: {x: 8004, y: 4021}
   vertical: 0
-  controlID: 15308
+  controlID: 10624
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -201,9 +201,9 @@ MonoBehaviour:
     height: 439
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 7e43fbffc657fbff420dffff0212ffff72a9ffff28c5ffff3ad9ffff1cf4ffff1afcffff000000003a3d0000543d0000
+    m_SelectedIDs: aa2f0000
+    m_LastClickedID: 12202
+    m_ExpandedIDs: 7ed4ffff48dfffff1afcffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -281,14 +281,14 @@ MonoBehaviour:
     width: 882
     height: 439
   m_SceneLighting: 1
-  lastFramingTime: 91287.40894722355
+  lastFramingTime: 3001.685098690502
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 1
   m_Position:
-    m_Target: {x: 0, y: 0, z: 0}
+    m_Target: {x: -1.4299781, y: 0.68376404, z: 0}
     speed: 2
-    m_Value: {x: 0, y: 0, z: 0}
+    m_Value: {x: -1.4299781, y: 0.68376404, z: 0}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -315,9 +315,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 14.506837
+    m_Target: 16.54473
     speed: 2
-    m_Value: 14.506837
+    m_Value: 16.54473
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -461,7 +461,7 @@ MonoBehaviour:
     width: 1086
     height: 250
   m_SearchFilter:
-    m_NameFilter: gore
+    m_NameFilter: 
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -472,19 +472,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/SoundBits_FreeSFX/Samples
+    - Assets/Audio/TudorStar/Punch
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/SoundBits_FreeSFX/Samples
+  - Assets/Audio/TudorStar/Punch
   m_LastFoldersGridSize: 64
   m_LastProjectPath: E:\munca\Unity\Source\unity-game-clujenii\Clujenii
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 27}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 000000005a260000a4270000f027000090490000d449000000ca9a3bffffff7f
+    m_SelectedIDs: fa460000
+    m_LastClickedID: 18170
+    m_ExpandedIDs: 000000005c260000b42800003e2900004a290000b0290000fe290000263b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -512,7 +512,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000005a260000a4270000f02700008c42000090490000d449000000ca9a3bffffff7f
+    m_ExpandedIDs: 000000005c260000b42800003e2900004a290000b0290000fe290000263b000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -537,8 +537,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: aa2f0000
+    m_LastClickedInstanceID: 12202
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000b02700004c2a00000000000024290000d0260000
     m_RenameOverlay:

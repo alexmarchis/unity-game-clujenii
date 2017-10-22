@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
                 {
                     preaching = true;
                     anim.SetBool("Preaching", true);
+                    soundFx.StartDivineRaySound();
                 }
             }
             else
@@ -179,7 +180,7 @@ public class Player : MonoBehaviour
     private void HandleDoublePunch()
     {
         if(doublePunchCounter == 0
-          || doublePunchCounter == 3)
+          || doublePunchCounter == 10)
         {
             Punch();
         }
@@ -199,9 +200,11 @@ public class Player : MonoBehaviour
                 if (collider.tag == "Enemy")
                 {
                     collider.gameObject.GetComponent<Dummy>().Hit(-Math.Sign(transform.localScale.x));
+                    soundFx.PunchSound();
                 }
             }
         }
+
     }
 
     private void HandlePreach()
@@ -240,6 +243,7 @@ public class Player : MonoBehaviour
     private void StopPreach()
     {
         divineRay.SetActive(false);
+        soundFx.StopDivineRaySound();
     }
 
     private void StopRunning()

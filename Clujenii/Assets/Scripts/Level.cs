@@ -61,11 +61,11 @@ public abstract class Level : MonoBehaviour
         levelText.text = LevelEndText;
         textImage.SetActive(true);
         Invoke("BackToMainMenu", levelStartDelay);
+        playMusic.StopLevelMusic();
     }
 
     private void BackToMainMenu()
     {
-        playMusic.StopLevelMusic();
         SceneManager.LoadScene(0);
     }
 
